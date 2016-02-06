@@ -38,7 +38,6 @@
 #include <malloc.h>
 #include <fs.h>
 
-
 #if defined(CONFIG_CMD_USB) && defined(CONFIG_USB_STORAGE)
 #include <usb.h>
 #endif
@@ -59,10 +58,7 @@ int do_ext4_ls(cmd_tbl_t *cmdtp, int flag, int argc, char *const argv[])
 {
 	return do_ls(cmdtp, flag, argc, argv, FS_TYPE_EXT);
 }
-int do_omitarg(cmd_tbl_t *cmdtp, int flag, int argc, char *const argv[])
-{
-	return do_omit( cmdtp, flag, argc, argv, FS_TYPE_EXT  );
-}
+
 #if defined(CONFIG_CMD_EXT4_WRITE)
 int do_ext4_write(cmd_tbl_t *cmdtp, int flag, int argc,
 		  char *const argv[])
@@ -96,13 +92,3 @@ U_BOOT_CMD(ext4load, 7, 0, do_ext4_load,
 	   "<interface> [<dev[:part]> [addr [filename [bytes [pos]]]]]\n"
 	   "    - load binary file 'filename' from 'dev' on 'interface'\n"
 	   "      to address 'addr' from ext4 filesystem");
-
-
-U_BOOT_CMD(omitarg, 3, 0, do_omitarg,
-	   "OMITARG HELP ",
-	   "OMIT <interface> [<dev[:part]> [addr [filename [bytes [pos]]]]]\n"
-	   "OMIT     - load binary file 'filename' from 'dev' on 'interface'\n"
-	   "OMIT       to address 'addr' from ext4 filesystem");
-
-
-

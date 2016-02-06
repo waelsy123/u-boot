@@ -17,7 +17,7 @@
 #include <asm/arch/sdhci.h>
 #include <asm/global_data.h>
 #include <dm/platform_data/serial_pl01x.h>
-#include <fs.h>
+
 DECLARE_GLOBAL_DATA_PTR;
 
 static const struct bcm2835_gpio_platdata gpio_platdata = {
@@ -281,10 +281,8 @@ int misc_init_r(void)
 			if(atag_ptr->tag == ATAG_CMDLINE) {
 				char* old_cmdline = ptr + 8;
 				printf("Set bootargs_orig from ATAG\n");
-				/* Wael done by me */
 				setenv("bootargs_orig", old_cmdline);
 				setenv("pi_bootmode", "atag");
-				omitarg("bootargs_orig", "root");
 			}
 			ptr = ptr + (atag_ptr->size * 4);
 			atag_ptr=ptr;

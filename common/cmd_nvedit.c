@@ -148,6 +148,46 @@ static int do_env_print(cmd_tbl_t *cmdtp, int flag, int argc,
 	return rcode;
 }
 
+/**
+ * Omit a single arg and its value from envirment variable.
+ * this single arg name should follow with white space, '\0' or '=' in case it has a value.
+ * 
+ *
+ */
+int omitarg(const char *var_name, const char *arg_name){
+        char *var_val = getenv(var_name) ;
+
+        if(var_val==NULL){
+                printf("%s: no such envirument variable.\n", var_name );
+                return 0;
+        }
+        int arg_len= strlen(arg_name);
+
+        char *ptr= var_val ;
+        while( (  (ptr = strstr(ptr ,arg_name)) != NULL ) ){
+                if( ( ptr== var_val || *(ptr-1) == ' ' || *(ptr-1) == '\n' || *(ptr-1) == '\t' ||*(ptr-1) == '=' ) &&
+                        ( *(ptr+ arg_len)==' ' || *(ptr+arg_len)=='\n' || *(ptr+arg_len)=='\t' || *(ptr+arg_len)=='=' || *(ptr+arg_len)=='\0') ){
+                        char *arg_loc = ptr;
+                        while(*ptr!=' ' && *ptr!= '\t' && *ptr!= '\0'){
+                                *ptr=' ' ;
+                                ptr++;
+                        }
+                        strcpy( arg_loc , ptr  );
+                        return 0
+                }
+                ptr = ptr + arg_len;
+        }
+        printf("%s: no such parameter for %s\n", arg_name, var_name); 
+	return 0;
+}
+
+static int do_env_omitarg(cmd_tbl_t *cmdtp, int flag, int argc, char *const argv[])
+{
+	if(argc != 3) 
+		return CMD_RET_USAGE; 
+	return omitarg(argv[1], argv[2]);
+}
+
 #ifdef CONFIG_CMD_GREPENV
 static int do_env_grep(cmd_tbl_t *cmdtp, int flag,
 		       int argc, char * const argv[])
@@ -1245,6 +1285,14 @@ U_BOOT_CMD_COMPLETE(
 	"printenv name ...\n"
 	"    - print value of environment variable 'name'",
 	var_complete
+);
+
+U_BOOT_CMD(omitarg, 3, 0, do_omitarg,
+           "omit a single parameter from environment variable",
+           "<environment variable> <parameter>"
+           "     - remove a parameter with its value(in case it has a value) from the environment variable\n"
+	   "omitarg bootargs rw"
+	   "	 - remove rw parameter from bootargs" 
 );
 
 #ifdef CONFIG_CMD_GREPENV

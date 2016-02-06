@@ -44,14 +44,6 @@ int fs_set_blk_dev(const char *ifname, const char *dev_part_str, int fstype);
  */
 int fs_ls(const char *dirname);
 
-/**
- * Omit a single arg and its value from envirment variable.
- * this single arg name should follow with white space, '\0' or '=' in case it has a value.
- * 
- *
- */
-int omitarg(const char *var_name, const char *arg_name); 
-        
 /*
  * Determine whether a file exists
  *
@@ -110,8 +102,6 @@ int file_exists(const char *dev_type, const char *dev_part, const char *file,
 		int fstype);
 int do_save(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[],
 		int fstype);
-int do_omit(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[],
-                int fstype);
 
 /*
  * Determine the UUID of the specified filesystem and print it. Optionally it is
