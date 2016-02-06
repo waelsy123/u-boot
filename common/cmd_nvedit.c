@@ -1287,7 +1287,7 @@ U_BOOT_CMD_COMPLETE(
 	var_complete
 );
 
-U_BOOT_CMD_COMPLETE(
+U_BOOT_CMD(
 	omitarg, 3, 0, do_env_omitarg,
            "omit a single parameter from environment variable",
            "<environment variable> <parameter>"
