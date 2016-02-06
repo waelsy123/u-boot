@@ -154,7 +154,7 @@ static int do_env_print(cmd_tbl_t *cmdtp, int flag, int argc,
  * 
  *
  */
-int omitarg(const char *var_name, const char *arg_name){
+static int omitarg(const char *var_name, const char *arg_name){
         char *var_val = getenv(var_name) ;
 
         if(var_val==NULL){
@@ -173,7 +173,7 @@ int omitarg(const char *var_name, const char *arg_name){
                                 ptr++;
                         }
                         strcpy( arg_loc , ptr  );
-                        return 0
+                        return 0;
                 }
                 ptr = ptr + arg_len;
         }
@@ -1287,7 +1287,8 @@ U_BOOT_CMD_COMPLETE(
 	var_complete
 );
 
-U_BOOT_CMD(omitarg, 3, 0, do_omitarg,
+U_BOOT_CMD_COMPLETE(
+	omitarg, 3, 0, do_env_omitarg,
            "omit a single parameter from environment variable",
            "<environment variable> <parameter>"
            "     - remove a parameter with its value(in case it has a value) from the environment variable\n"
